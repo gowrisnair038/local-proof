@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Local Proof</title>
+  <style>
+    body {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  background: #ffffff;
+  padding: 30px;
+  width: 380px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #2c3e50;
+}
+
+label {
+  font-weight: 600;
+  margin-top: 10px;
+  display: block;
+  color: #34495e;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: border 0.3s;
+}
+
+input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+input[type="checkbox"] {
+  transform: scale(1.2);
+  margin-right: 8px;
+}
+
+button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #3498db, #2ecc71);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+#preview {
+  width: 100%;
+  margin-top: 15px;
+  border-radius: 10px;
+  display: none;
+}
+
+#qrcode {
+  margin-top: 20px;
+  text-align: center;
+  animation: popIn 0.4s ease-in-out;
+}
+#qrcode img {
+  display: block;
+  margin: 0 auto;
+}
+#qrcode {
+    width: 220px;
+    height: 220px;
+    background: white; /* Contrast against background */
+    padding: 10px;
+    display: block !important;
+    margin: 20px auto;
+}
+
+#qrcode canvas, #qrcode img {
+    display: block;
+    margin: 0 auto;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+  </style>
+</head>
+<body>
+
+
+
+<div class="container">
+  <h2>Local Proof – Upload Poster</h2>
+
+  <label>Poster Image</label>
+  <input type="file" id="posterInput" accept="image/*">
+
+  <label>Title</label>
+  <input type="text" id="titleInput" placeholder="Poster Title">
+
+  <label>Organizer</label>
+  <input type="text" id="organizerInput" placeholder="Organizer Name">
+
+  <label>Expiry Date</label>
+  <input type="date" id="expiryInput">
+
+  <label class="checkbox">
+    <input type="checkbox" id="verifiedInput">
+    Verified Poster
+  </label>
+
+  <button id="uploadBtn">Upload Poster & Generate QR</button>
+
+  <img id="preview" alt="Poster Preview">
+
+  <div id="qrcode" style="width:220px; height:220px; margin-top:20px;"></div>
+</div>
+
+<!-- QR Code library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script type="module" src="app.js"></script>
+
+
+</body>
+</html>

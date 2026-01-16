@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Verify Poster - Local Proof</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    img { max-width: 300px; margin-top: 10px; }
+    button { margin: 5px 5px 5px 0; padding: 10px; }
+  </style>
+</head>
+<body>
+
+<h2>Verify Poster</h2>
+
+<div id="posterInfo">
+  <p>Loading poster info...</p>
+</div>
+
+<button id="stillHappening">Still Happening</button>
+<button id="outdated">Outdated</button>
+<button id="fake">Fake</button>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+  import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCe2PIUXBclIhX6A5Vq7dzcdbCARMnGA0s",
+    authDomain: "localproof-cc7ce.firebaseapp.com",
+    projectId: "localproof-cc7ce",
+    storageBucket: "localproof-cc7ce.appspot.com",
+    messagingSenderId: "238102748597",
+    appId: "1:238102748597:web:6a62019f8a3a4ab35e0dfc"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Get poster ID from URL
+  const params = new URLSearchParams(window.location.search);
+  const posterId = params.get("id");
+
+  async function loadPoster() {
+    const posterRef = doc(db, "posters", posterId);
+    const posterSnap = await getDoc(posterRef);
+    if (posterSnap.exists()) {
+      const data = posterSnap.data();
+      document.getElementById("posterInfo").innerHTML = `
+        <h3>${data.title}</h3>
+        <p>Organizer: ${data.organizer}</p>
+        <p>Expiry: ${data.expiry}</p>
+        <p>Status: ${data.status}</p>
+        <img src="${data.imageUrl}" alt="Poster Image">
+      `;
+    } else {
+      document.getElementById("posterInfo").innerHTML = "<p>Poster not found.</p>";
+    }
+
+    document.getElementById("stillHappening").onclick = async () => {
+      await updateDoc(posterRef, { status: "active" });
+      alert("Marked as Still Happening");
+      loadPoster();
+    };
+
+    document.getElementById("outdated").onclick = async () => {
+      await updateDoc(posterRef, { status: "outdated" });
+      alert("Marked as Outdated");
+      loadPoster();
+    };
+
+    document.getElementById("fake").onclick = async () => {
+      await updateDoc(posterRef, { status: "fake" });
+      alert("Marked as Fake");
+      loadPoster();
+    };
+  }
+
+  loadPoster();
+</script>
+
+</body>
+</html>
